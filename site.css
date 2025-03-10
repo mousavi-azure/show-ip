@@ -1,0 +1,114 @@
+body {
+    background-color: #f0f5ff;
+    padding: 20px;
+    font-family: 'Vazirmatn', sans-serif;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+.container {
+    max-width: 900px;
+}
+.card {
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 25px;
+    border: none;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+.card-header {
+    background: linear-gradient(to left, #4e54c8, #8f94fb);
+    color: white;
+    font-weight: 500;
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+    padding: 15px 20px;
+}
+.card-header i {
+    margin-left: 10px;
+}
+.card-body {
+    padding: 20px;
+}
+.ip-badge {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    background: linear-gradient(to left, #11998e, #38ef7d);
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.map-container {
+    height: 350px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+.list-group-item {
+    padding: 15px 20px;
+    border-right: none;
+    border-left: none;
+    transition: background-color 0.2s ease;
+}
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+.list-group-item:first-child {
+    border-top: none;
+}
+.list-group-item:last-child {
+    border-bottom: none;
+}
+h1.title {
+    color: #4e54c8;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+.accordion-button:not(.collapsed) {
+    background-color: #eef2ff;
+    color: #4e54c8;
+}
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(78, 84, 200, 0.25);
+}
+.flag-img {
+    width: 24px;
+    height: auto;
+    margin-right: 8px;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+.fw-bold {
+    font-weight: 500 !important;
+}
+.info-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: #495057;
+    font-size: 12px;
+    margin-right: 8px;
+}
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+pre {
+    direction: ltr;
+    text-align: left;
+}
+@media (max-width: 576px) {
+    .card-header, .card-body {
+        padding: 15px;
+    }
+}
