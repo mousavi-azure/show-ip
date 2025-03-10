@@ -8,7 +8,8 @@ $dotenv->load();
 $apiKey = $_ENV['API_KEY'];
 
 $userIP = getRealIpAddr();
-$userIP = '8.8.8.8';
+#in Development Use this address (Uncomment it)
+#$userIP = '8.8.8.8';
 
 $ipData = getIPData($userIP, $apiKey);
 $hasError = isset($ipData['error']) || isset($ipData['message']);
