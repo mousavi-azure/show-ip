@@ -27,7 +27,7 @@ cd show-ip
 composer install
 یا
 docker-compose up
-
+```
 
 ## مشارکت در پروژه
 
