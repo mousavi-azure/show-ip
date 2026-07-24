@@ -1,22 +1,29 @@
-<div align="right">
+<div dir="rtl" align="right">
 
-[🇬🇧 English](README.en.md) · فارسی
+فارسی · [English](README.en.md) 🇬🇧
 
 </div>
 
-<h1 align="right">Show-IP.ir</h1>
-<p align="right"><strong>آی‌پی من، موقعیت من، شبکه من — همه در یک صفحه، بدون هیچ سروری غیر از سرور خودتان.</strong></p>
+<div dir="rtl" align="right">
 
-<div align="right">
+# Show-IP.ir
+
+**آی‌پی من، موقعیت من، شبکه من — همه در یک صفحه، بدون هیچ سروری غیر از سرور خودتان.**
+
+</div>
+
+<div dir="ltr" align="center">
 
 ![PHP](https://img.shields.io/badge/PHP-8.1%2B-777BB4?logo=php&logoColor=white)
-![No Framework](https://img.shields.io/badge/framework-ندارد-2e7d32)
-![No External JS](https://img.shields.io/badge/کتابخانه%20خارجی-صفر-2e7d32)
-![Bilingual](https://img.shields.io/badge/زبان-فارسی%20%7C%20English-4f46e5)
-![Self--hosted Map](https://img.shields.io/badge/نقشه-میزبانی%20محلی-0d9488)
-![Live](https://img.shields.io/badge/دمو%20زنده-show--ip.ir-0d9488)
+![No Framework](https://img.shields.io/badge/framework-none-2e7d32)
+![No External JS](https://img.shields.io/badge/external%20JS%20libs-zero-2e7d32)
+![Bilingual](https://img.shields.io/badge/language-fa%20%7C%20en-4f46e5)
+![Self--hosted Map](https://img.shields.io/badge/map-self--hosted-0d9488)
+![Live](https://img.shields.io/badge/live%20demo-show--ip.ir-0d9488)
 
 </div>
+
+<div dir="rtl" align="right">
 
 Show-IP.ir یک ابزار وب سبک و کاملاً بدون فریم‌ورک (PHP خالص) است که آدرس IP عمومی، موقعیت جغرافیایی، اطلاعات شبکه/ISP و وضعیت امنیتی اتصال شما (VPN/پروکسی/Tor) را نشان می‌دهد و یک محاسبه‌گر زیرشبکه (Subnet) رایگان هم همراهش دارد. هدف پروژه ساده است: همان چیزی که سایت‌هایی مثل `whatismyip.com` یا `ifconfig.me` نشان می‌دهند، اما **سریع‌تر، خصوصی‌تر و بدون وابستگی به هیچ سرویس خارجی‌ای که ممکن است برای کاربر ایرانی کند یا مسدود باشد.**
 
@@ -29,22 +36,26 @@ Show-IP.ir این مشکل را با **میزبانی کامل نقشه جهان
 ## ویژگی‌ها
 
 ### هسته اصلی
+
 - **نمایش آی‌پی و اطلاعات کامل شبکه**: کشور، شهر، ISP، ASN، رنج شبکه، منطقه زمانی، ارز و زبان — از طریق [ipdata.co](https://ipdata.co).
 - **بررسی امنیتی اتصال**: تشخیص Tor، پروکسی، دیتاسنتر/VPN، iCloud Private Relay، مهاجم/سوءاستفاده‌گر شناخته‌شده.
 - **محاسبه‌گر Subnet**: آدرس شبکه، برادکست، اولین/آخرین هاست قابل‌استفاده، تعداد کل آدرس‌ها و هاست‌های مفید — از روی IPv4 + Subnet Mask یا CIDR.
 - **حالت CLI/API**: دقیقاً مثل `ifconfig.me` — `curl show-ip.ir` آی‌پی را متنی برمی‌گرداند، `curl show-ip.ir/json` همه‌چیز را به‌صورت JSON.
 
 ### نقشه و حریم خصوصی
+
 - **نقشه کاملاً محلی**: بدون iframe، بدون تایل خارجی، بدون هیچ درخواستی به OpenStreetMap یا مشابه. کالیبره‌شده و تست‌شده روی ده‌ها شهر واقعی در سراسر دنیا.
 - **موقعیت دقیق با اجازه کاربر**: دکمه «استفاده از موقعیت دقیق من» از `navigator.geolocation` مرورگر استفاده می‌کند — مختصات فقط لحظه‌ای در همان مرورگر روی نقشه نمایش داده می‌شود و هرگز به هیچ سروری ارسال یا ذخیره نمی‌شود.
 - بدون کوکی ردیابی، بدون آنالیتیکس شخص‌ثالث، بدون ذخیره‌سازی داده کاربر.
 
 ### تجربه کاربری
+
 - **حالت روشن/تیره خودکار بر اساس ساعت**: پیش از ساعت ۶ عصر روشن، بعد از آن تیره — مگر کاربر خودش پوسته را دستی عوض کند (که در `localStorage` ذخیره می‌شود).
 - **دو زبانه واقعی (فارسی/English)**: فارسی زبان پیش‌فرض در `/` است؛ نسخه کامل انگلیسی در `/en` و `/en/faq` با ترجمه دستی (نه ماشینی) برای هر رشته و هر پرسش متداول.
 - طراحی واکنش‌گرا، بدون هیچ کتابخانه CSS/JS خارجی — فونت Vazirmatn و همه آیکون‌ها به‌صورت محلی سرو می‌شوند.
 
 ### سئو
+
 - تگ‌های `hreflang` (`fa-IR`, `en`, `x-default`) و `canonical` جداگانه برای هر زبان.
 - ساختار داده Schema.org (`WebSite`, `WebApplication`, `FAQPage`, `BreadcrumbList`) با `inLanguage` صحیح.
 - `sitemap.xml` با پیوندهای `hreflang` متقابل بین نسخه فارسی و انگلیسی هر صفحه.
@@ -57,6 +68,8 @@ Show-IP.ir این مشکل را با **میزبانی کامل نقشه جهان
 
 ## اجرا
 
+</div>
+
 ```bash
 git clone https://github.com/mousavi-azure/show-ip.git
 cd show-ip
@@ -64,9 +77,13 @@ cp .env.sample .env   # و سپس API_KEY را از ipdata.co داخلش قرا�
 php -S localhost:8000
 ```
 
+<div dir="rtl" align="right">
+
 سپس مرورگر را روی `http://localhost:8000` باز کنید.
 
 ## ساختار پروژه
+
+</div>
 
 ```
 index.php                  صفحه اصلی (نمایش آی‌پی + محاسبه‌گر)
@@ -88,16 +105,22 @@ assets/
   fonts/                          فونت Vazirmatn (woff2، خوداستفاده)
 ```
 
+<div dir="rtl" align="right">
+
 ## درباره نقشه محلی
 
 فایل `assets/img/world-map.svg` نسخه‌ای فشرده‌شده (با svgo، از ۱٫۳ مگابایت به حدود ۳۰۰ کیلوبایت gzip) از نقشه [BlankMap-World-Equirectangular.svg](https://commons.wikimedia.org/wiki/File:BlankMap-World-Equirectangular.svg) در ویکی‌مدیا کامنز است — اثر جان هاروی بر پایه مواد CIA World Factbook، منتشرشده تحت مالکیت عمومی/CC0.
 
 موقعیت هر نقطه با یک فرمول ساده تصویربرداری خطی (equirectangular) از روی طول و عرض جغرافیایی محاسبه و به‌صورت درصدی روی تصویر قرار می‌گیرد — بدون نیاز به هیچ کتابخانه نقشه:
 
+</div>
+
 ```
 left% = (longitude + 180) / 360 * 100
 top%  = (90 - latitude) / 180 * 100
 ```
+
+<div dir="rtl" align="right">
 
 این فرمول در برابر بیش از ۲۰ شهر واقعی در سراسر دنیا (از تهران و مشهد تا سیدنی و آنکوریج) تست و تأیید شده است.
 
@@ -122,9 +145,11 @@ top%  = (90 - latitude) / 180 * 100
 
 کد پروژه در حال حاضر بدون لایسنس متن‌باز رسمی منتشر شده؛ تمامی حقوق نزد [Mostafa Mousavi](https://mousavi.dev) محفوظ است.
 
+</div>
+
 ---
 
-<div align="right">
+<div dir="rtl" align="right">
 
 ساخته‌شده با ❤ توسط <a href="https://mousavi.dev">Mostafa Mousavi</a>
 
