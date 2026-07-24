@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://show-ip.ir/sitemap.xml

@@ -1,0 +1,19 @@
+{
+  "name": "Show-IP.ir — نمایش آی‌پی و اطلاعات شبکه",
+  "short_name": "Show-IP",
+  "description": "نمایش آی‌پی عمومی، موقعیت مکانی، اطلاعات شبکه و محاسبه‌گر زیرشبکه.",
+  "lang": "fa-IR",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f5fa",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

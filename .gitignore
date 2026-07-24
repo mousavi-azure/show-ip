@@ -1,54 +1,17 @@
-# Laravel
-/vendor
-/node_modules
-/public/storage
-/storage/*.key
-/.idea
+# Environment
 /.env
 /.env.local
 /.env.*.local
-/.vscode
-/phpunit.xml
-/phpunit.xml.dist
-/.phpunit
-/.composer
 
-# Mac OS
+# OS
 .DS_Store
-
-# Windows
 Thumbs.db
 
-# Nginx Logs
-/logs
-
-# Apache Logs
-/log
-
-# Composer
-composer.lock
-composer.phar
-
-# Docker
-*.log
-*.pid
-*.swp
-*.bak
-
-# IDE Files
-.idea/
-.vscode/
-*.sublime-workspace
+# Editors
+/.idea
+/.vscode
 *.sublime-project
+*.sublime-workspace
 
-# Laravel Forge
-/.forge
-
-# Other files that can be excluded
-/public/hot
-/public/mix-manifest.json
-/public/js
-/public/css
-
-# PHPUnit
-.phpunit.result.cache
+# Logs
+*.log

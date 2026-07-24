@@ -1,106 +1,115 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+declare(strict_types=1);
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
-// تابع برای تبدیل CIDR به Subnet Mask
-function cidrToMask($cidr) {
+$lang = (($_POST['lang'] ?? '') === 'en') ? 'en' : 'fa';
+
+$MESSAGES = [
+    'fa' => [
+        'method_not_allowed' => 'روش درخواست مجاز نیست.',
+        'missing_fields'     => 'لطفاً آدرس IP و Subnet Mask یا CIDR را وارد کنید!',
+        'invalid_ipv4'       => 'فقط IPv4 پشتیبانی می‌شود و آی‌پی باید معتبر باشد.',
+        'invalid_cidr'       => 'CIDR نامعتبر است.',
+        'invalid_mask'       => 'Subnet Mask نامعتبر است.',
+        'mask_not_contiguous'=> 'Subnet Mask باید پیوسته باشد.',
+        'invalid_ip_or_mask' => 'آی‌پی یا Subnet Mask نامعتبر است.',
+    ],
+    'en' => [
+        'method_not_allowed' => 'Method not allowed.',
+        'missing_fields'     => 'Please enter both an IP address and a subnet mask or CIDR.',
+        'invalid_ipv4'       => 'Only IPv4 is supported, and the address must be valid.',
+        'invalid_cidr'       => 'Invalid CIDR value.',
+        'invalid_mask'       => 'Invalid subnet mask.',
+        'mask_not_contiguous'=> 'Subnet mask bits must be contiguous.',
+        'invalid_ip_or_mask' => 'Invalid IP address or subnet mask.',
+    ],
+][$lang];
+
+function respond(array $payload, int $status = 200): void {
+    http_response_code($status);
+    echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    exit;
+}
+
+function cidrToMask(int $cidr, array $messages): string {
     if ($cidr < 0 || $cidr > 32) {
-        return false; // مقدار نامعتبر
+        throw new InvalidArgumentException($messages['invalid_cidr']);
     }
-    return long2ip(-1 << (32 - $cidr)); // تبدیل CIDR به Subnet Mask
+    return long2ip((int)(~((1 << (32 - $cidr)) - 1)));
 }
 
-// تابع برای محاسبه تعداد میزبان‌ها
-function calculateTotalHosts($subnetMask) {
-    $maskBin = ip2long($subnetMask);
-    $subnetBits = 32 - substr_count(decbin($maskBin), '1'); // شمارش تعداد 0‌ها در ماسک
-    return pow(2, $subnetBits) - 2; // محاسبه تعداد میزبان‌ها
+function maskToCidr(string $mask, array $messages): int {
+    $long = ip2long($mask);
+    if ($long === false) {
+        throw new InvalidArgumentException($messages['invalid_mask']);
+    }
+    $bin = str_pad(decbin($long), 32, '0', STR_PAD_LEFT);
+    if (preg_match('/01/', $bin)) { // not contiguous
+        throw new InvalidArgumentException($messages['mask_not_contiguous']);
+    }
+    return substr_count($bin, '1');
 }
 
-// تابع برای محاسبه آدرس شبکه، آدرس پخش، اولین و آخرین IP قابل استفاده
-function calculateNetworkInfo($ip, $subnetMask) {
-    // تبدیل IP و Subnet Mask به باینری
-    $ipBin = ip2long($ip);
-    $maskBin = ip2long($subnetMask);
+function calculateNetwork(string $ip, string $mask, array $messages): array {
+    $ipLong = ip2long($ip);
+    $maskLong = ip2long($mask);
 
-    // محاسبه آدرس شبکه و پخش
-    $network = long2ip($ipBin & $maskBin);  // AND عملیات برای آدرس شبکه
-    $broadcast = long2ip(($ipBin & $maskBin) | (~$maskBin));  // OR عملیات برای آدرس پخش
+    if ($ipLong === false || $maskLong === false) {
+        throw new InvalidArgumentException($messages['invalid_ip_or_mask']);
+    }
 
-    // اولین و آخرین IP قابل استفاده
-    $firstUsable = long2ip(($ipBin & $maskBin) + 1);
-    $lastUsable = long2ip(($ipBin & $maskBin) | (~$maskBin) - 1);
+    $networkLong = $ipLong & $maskLong;
+    $broadcastLong = $networkLong | (~$maskLong & 0xFFFFFFFF);
 
-    // تعداد میزبان‌ها
-    $totalHosts = calculateTotalHosts($subnetMask);
+    $cidr = maskToCidr($mask, $messages);
+    $hostBits = 32 - $cidr;
+    $totalHosts = ($hostBits === 0) ? 1 : (1 << $hostBits);
+    $usableHosts = ($cidr >= 31) ? $totalHosts : max($totalHosts - 2, 0);
+
+    $firstUsable = ($cidr >= 31) ? $networkLong : $networkLong + 1;
+    $lastUsable = ($cidr >= 31) ? $broadcastLong : $broadcastLong - 1;
 
     return [
-        'Network Address' => $network,
-        'Broadcast Address' => $broadcast,
-        'First Usable IP' => $firstUsable,
-        'Last Usable IP' => $lastUsable,
-        'Total Hosts' => $totalHosts,
+        'ip' => $ip,
+        'subnet_mask' => $mask,
+        'cidr' => '/' . $cidr,
+        'network_address' => long2ip($networkLong),
+        'broadcast_address' => long2ip($broadcastLong),
+        'first_usable' => long2ip($firstUsable),
+        'last_usable' => long2ip($lastUsable),
+        'total_addresses' => $totalHosts,
+        'usable_hosts' => $usableHosts,
+        'host_bits' => $hostBits,
     ];
 }
 
-// بررسی متد درخواست
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(["error" => "متد غیرمجاز است"]);
-    exit;
-}
-
-// بررسی مقدار ورودی
-if (!isset($_POST['ip']) || !isset($_POST['subnet'])) {
-    http_response_code(400);
-    echo json_encode(["error" => "مقادیر ارسالی نامعتبر است"]);
-    exit;
-}
-
-$ip = trim($_POST['ip']);
-$subnet = trim($_POST['subnet']);
-
-// اعتبارسنجی آی‌پی
-if (!filter_var($ip, FILTER_VALIDATE_IP)) {
-    http_response_code(400);
-    echo json_encode(["error" => "آدرس IP نامعتبر است"]);
-    exit;
-}
-
-// تبدیل subnet از CIDR به Mask
-if (strpos($subnet, '/') !== false) {
-    // اگر subnet ورودی CIDR باشد
-    $cidr = (int) substr($subnet, 1);
-    $subnet = cidrToMask($cidr);
-    if (!$subnet) {
-        http_response_code(400);
-        echo json_encode(["error" => "CIDR نامعتبر است"]);
-        exit;
+try {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        respond(['error' => $MESSAGES['method_not_allowed']], 405);
     }
-} elseif (!filter_var($subnet, FILTER_VALIDATE_IP)) {
-    // اگر subnet ورودی به صورت Mask باشد ولی نامعتبر باشد
-    http_response_code(400);
-    echo json_encode(["error" => "Subnet mask نامعتبر است"]);
-    exit;
+
+    $ip = trim((string)($_POST['ip'] ?? ''));
+    $subnet = trim((string)($_POST['subnet'] ?? ''));
+
+    if ($ip === '' || $subnet === '') {
+        respond(['error' => $MESSAGES['missing_fields']], 422);
+    }
+
+    if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+        respond(['error' => $MESSAGES['invalid_ipv4']], 422);
+    }
+
+    // subnet can be mask or /cidr
+    if (preg_match('/^\/(\d{1,2})$/', $subnet, $m)) {
+        $mask = cidrToMask((int)$m[1], $MESSAGES);
+    } else {
+        $mask = $subnet;
+    }
+
+    $result = calculateNetwork($ip, $mask, $MESSAGES);
+    respond(['ok' => true, 'result' => $result]);
+
+} catch (Throwable $e) {
+    respond(['error' => $e->getMessage()], 500);
 }
-
-// محاسبات اضافی و نمایش خروجی
-$networkInfo = calculateNetworkInfo($ip, $subnet);
-
-// ایجاد نتیجه نهایی
-$result = [
-    "آدرس IP" => $ip,
-    "Subnet Mask یا زیر شبکه" => $subnet,
-    "آدرس شبکه" => $networkInfo['Network Address'],
-    "آدرس برودکست" => $networkInfo['Broadcast Address'],
-    "اولین آدرس قابل استفاده" => $networkInfo['First Usable IP'],
-    "آخرین آدرس قابل استفاده" => $networkInfo['Last Usable IP'],
-    "تعداد هاست" => $networkInfo['Total Hosts']
-];
-
-// ارسال داده‌ها به صورت JSON
-echo json_encode($result);
-exit;
-?>
