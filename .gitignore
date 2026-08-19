@@ -15,3 +15,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Local dev tooling
+/.claude/launch.json
+/.dev/

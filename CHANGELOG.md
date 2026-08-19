@@ -3,6 +3,24 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/), and this project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Persian display names for API-returned geo values (`includes/geo-fa.php`): country names (all ISO 3166-1 codes) and continent names always localize on the Persian site; region/city localize for all 31 Iranian provinces, ~100 Iranian cities, and ~80 common world/VPN-hub cities — e.g. `Tehran` now renders as `تهران` instead of passing the API's English string straight through. Falls back to the original English value when no translation is known.
+- Blog system (`blog.php`, `includes/blog/`, `includes/blog-meta.*.php`): 11 bilingual articles on IP/networking fundamentals and per-OS "find your IP" guides, cross-linked from the homepage, FAQ, and each other.
+- RSS feed (`/feed`, `/en/feed` — `rss.php`) for the blog, with `<link rel="alternate" type="application/rss+xml">` discovery tags.
+- Security-check summary: a CSS-only donut ring showing checks-passed alongside a plain-language sentence, and hover tooltips explaining what each threat flag (Tor, proxy, datacenter/VPN, etc.) actually means.
+- Subtle ambient background gradient and a pulsing ring on the IP badge icon.
+- `code-chip` styling for short technical codes (country code, ASN) shown next to their translated labels.
+
+### Fixed
+- `.htaccess` had no rewrite rules for `/blog`, `/blog/{slug}`, `/en/blog`, or `/en/blog/{slug}` — every blog link on the site, and every blog URL already listed in `sitemap.xml`, 404'd on a real Apache server.
+- `robots.txt` now disallows the plain-text `/ip` and `/json` API endpoints so they aren't crawled/indexed as thin duplicate content.
+
+### Changed
+- `sitemap.xml` `lastmod` dates refreshed for pages whose rendered content actually changed.
+- Preload both `Vazirmatn-Bold` and `Vazirmatn-Black` (the hero/brand heading weight) to avoid a flash of unstyled heading text on first paint.
+
 ## [1.0.0] — 2026-07-24
 
 First tagged release. The project was rebuilt from a working prototype into a complete, bilingual, privacy-focused IP lookup tool.

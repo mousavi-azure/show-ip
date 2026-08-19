@@ -10,8 +10,16 @@
 
   # ── Clean URLs ──
   RewriteRule ^faq/?$ faq.php [L]
+  # Blog
+  RewriteRule ^blog/?$ blog.php [L,QSA]
+  RewriteRule ^blog/([a-z0-9-]+)/?$ blog.php?slug=$1 [L,QSA]
+  # RSS feed
+  RewriteRule ^feed/?$ rss.php [L]
+  RewriteRule ^en/feed/?$ rss.php?lang=en [L,QSA]
   # English version
   RewriteRule ^en/faq/?$ faq.php?lang=en [L,QSA]
+  RewriteRule ^en/blog/?$ blog.php?lang=en [L,QSA]
+  RewriteRule ^en/blog/([a-z0-9-]+)/?$ blog.php?lang=en&slug=$1 [L,QSA]
   RewriteRule ^en/?$ index.php?lang=en [L,QSA]
   # CLI / API endpoints:  /ip  and  /json
   RewriteRule ^ip/?$ index.php?format=text [L,QSA]

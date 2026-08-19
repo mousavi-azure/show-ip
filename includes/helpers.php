@@ -103,3 +103,42 @@ function yesNo(?bool $value, array $translations): string {
     if ($value === null) return t('N/A', $translations);
     return $value ? t('Yes', $translations) : t('No', $translations);
 }
+
+/**
+ * Localize a geo display value (country/continent/region/city) into Persian
+ * using the tables from includes/geo-fa.php. ipdata.co always returns these
+ * in English; on the English site (or values it has no translation for) the
+ * original string passes through unchanged.
+ *
+ * @param array<string,string> $table looked up by ISO code first (countries/
+ *   continents), then by lowercase English name (region/city, which have no
+ *   reliable global code) — pass $code only when the table is code-keyed.
+ */
+function geoLocalize(string $value, string $lang, array $table, string $code = ''): string {
+    if ($lang !== 'fa' || $value === '') {
+        return $value;
+    }
+    if ($code !== '' && isset($table[$code])) {
+        return $table[$code];
+    }
+    return $table[mb_strtolower($value)] ?? $value;
+}
+
+/**
+ * Resolve the requested blog article slug, if any. Prefers the `slug` query
+ * param (set by the .htaccess rewrite rules), but also parses it straight
+ * out of the URL path as a fallback — same resilience reasoning as
+ * resolveLang(): it must keep working even if .htaccess rewrites for
+ * /blog/{slug} aren't applied on a given server.
+ */
+function resolveBlogSlug(): ?string {
+    $slug = strtolower((string)($_GET['slug'] ?? ''));
+    if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug)) {
+        return $slug;
+    }
+    $path = (string)parse_url((string)($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+    if (preg_match('#/blog/([a-z0-9-]+)/?$#', $path, $m)) {
+        return $m[1];
+    }
+    return null;
+}

@@ -10,6 +10,8 @@ return [
     "Home Meta Keywords" => "what is my ip, my ip address, ip lookup, ip location, ip address lookup, subnet calculator, cidr calculator, vpn detection, proxy detection, show-ip.ir",
     "FAQ Meta Title" => "Frequently Asked Questions about IP & Networking",
     "FAQ Meta Description" => "Answers to common questions about IP addresses, privacy, VPN/proxy detection, location accuracy and the subnet calculator on Show-IP.ir.",
+    "Blog Meta Title" => "IP & Networking Articles",
+    "Blog Meta Description" => "A collection of educational articles about IP addresses, IPv4 vs IPv6, VPNs, static vs dynamic and private vs public IPs, and guides to finding your IP on Windows, Mac, Linux, Android and iPhone.",
     "Home" => "Home",
 
     // --- Header ---
@@ -87,6 +89,16 @@ return [
     "Is Known Attacker" => "Known Attacker",
     "Is Known Abuser" => "Known Abuser",
     "Is Threat" => "Known Threat",
+    "Is Tor Desc" => "This IP belongs to the Tor network, used for anonymous browsing.",
+    "Is Proxy Desc" => "This IP is connecting through a proxy server.",
+    "Is VPN / Datacenter Desc" => "This IP belongs to a datacenter or VPN service, not a typical home connection.",
+    "Is iCloud Relay Desc" => "This IP passed through Apple's iCloud Private Relay service.",
+    "Is Anonymous Desc" => "This connection was identified as anonymized via VPN, proxy or Tor.",
+    "Is Known Attacker Desc" => "This IP has previously been seen in known cyberattacks.",
+    "Is Known Abuser Desc" => "This IP has been reported on abuse lists (e.g. spam).",
+    "Is Threat Desc" => "This IP is generally recognized as a security threat source.",
+    "Security Summary Clean" => "Based on %d security checks, this IP shows no signs of VPN, proxy, Tor or malicious activity.",
+    "Security Summary Flagged" => "This IP was flagged in %d of %d security checks — see details below.",
     "Raw API Response" => "Raw API Response",
     "Yes" => "Yes",
     "No" => "No",
@@ -128,6 +140,19 @@ return [
     "FAQ Teaser Subtitle" => "Everything you need to know about your IP, location and connection security",
     "View All FAQ" => "See all questions on the guide page",
     "Back To Home CTA" => "Back to my IP",
+
+    // --- Blog ---
+    "Blog" => "Articles",
+    "Blog Section Aria" => "Educational articles",
+    "All Articles" => "All Articles",
+    "Blog Intro" => "Clear, accurate guides on IP addresses, networking, VPNs and privacy — without unnecessary technical jargon.",
+    "Read Article" => "Read article",
+    "Published" => "Published",
+    "Back to Articles" => "Back to articles",
+    "Article Not Found" => "Article not found",
+    "Article Not Found Body" => "The link may be wrong, or the article may have moved.",
+    "Try The Tool" => "Try it",
+    "Related Articles" => "Related articles",
 
     // --- Footer ---
     "Footer Credit Prefix" => "Crafted with",

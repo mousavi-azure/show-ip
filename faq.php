@@ -13,6 +13,9 @@ $htmlDir = $lang === 'en' ? 'ltr' : 'rtl';
 $translations = require __DIR__ . "/includes/i18n.$lang.php";
 /** @var array<int,array{q:string,a:string}> $faqs */
 $faqs = require __DIR__ . "/includes/faq.$lang.php";
+/** @var array<string,array{title:string,description:string,excerpt:string,date:string}> $blogArticles */
+$blogArticles = require __DIR__ . "/includes/blog-meta.$lang.php";
+$relatedFaqSlugs = ['what-is-an-ip-address', 'how-vpn-changes-your-ip', 'private-vs-public-ip'];
 
 $pageTitle = t('FAQ Meta Title', $translations) . ' | ' . APP_NAME;
 $pageDescription = t('FAQ Meta Description', $translations);
@@ -62,6 +65,7 @@ $ogImage = APP_URL . ($lang === 'en' ? '/assets/img/og-image-en.png' : '/assets/
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="preload" href="/assets/fonts/Vazirmatn-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/Vazirmatn-Black.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/site.css">
 
     <script type="application/ld+json">
@@ -103,6 +107,7 @@ $ogImage = APP_URL . ($lang === 'en' ? '/assets/img/og-image-en.png' : '/assets/
         <nav class="header-actions">
             <a class="btn-pill alt" href="<?= e($homeUrl) ?>"><?= icon('globe') ?> <?= e(t('Show My IP Nav', $translations)) ?></a>
             <a class="btn-pill" href="<?= e($homeUrl) ?>#calculator"><?= icon('calculator') ?> <?= e(t('Tools & Calculator', $translations)) ?></a>
+            <a class="btn-pill" href="<?= $lang === 'en' ? '/en/blog' : '/blog' ?>"><?= icon('list') ?> <?= e(t('Blog', $translations)) ?></a>
             <?php if ($lang === 'en'): ?>
                 <a class="btn-pill lang-switch" href="/faq" hreflang="fa-IR" lang="fa" dir="rtl">فارسی</a>
             <?php else: ?>
@@ -135,6 +140,20 @@ $ogImage = APP_URL . ($lang === 'en' ? '/assets/img/og-image-en.png' : '/assets/
 
         <div class="section-head">
             <a class="btn-calc" href="<?= e($homeUrl) ?>"><?= icon('globe') ?> <?= e(t('Back To Home CTA', $translations)) ?></a>
+        </div>
+    </section>
+
+    <section class="section-head-left" aria-label="<?= e(t('Related Articles', $translations)) ?>">
+        <h2 class="related-heading"><?= icon('list') ?> <?= e(t('Related Articles', $translations)) ?></h2>
+        <div class="blog-grid">
+            <?php $blogBase = $lang === 'en' ? '/en/blog' : '/blog'; ?>
+            <?php foreach ($relatedFaqSlugs as $s): $a = $blogArticles[$s]; ?>
+            <a class="blog-card" href="<?= e($blogBase . '/' . $s) ?>">
+                <h3 class="blog-card-title"><?= e($a['title']) ?></h3>
+                <p class="blog-card-excerpt"><?= e($a['excerpt']) ?></p>
+                <span class="blog-card-link"><?= e(t('Read Article', $translations)) ?> <?= icon('external') ?></span>
+            </a>
+            <?php endforeach; ?>
         </div>
     </section>
 
