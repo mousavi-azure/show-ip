@@ -38,6 +38,7 @@ if ($format === '' && isConsoleClient()) {
 if ($format === 'text' || $format === 'ip' || $format === 'plain') {
     header('Content-Type: text/plain; charset=utf-8');
     header('Access-Control-Allow-Origin: *');
+    header('X-Robots-Tag: noindex');
     echo $userIP . "\n";
     exit;
 }
@@ -45,6 +46,7 @@ if ($format === 'json') {
     $apiData = fetchIpData($userIP, IPDATA_API_KEY, IPDATA_VERIFY_SSL, IPDATA_TIMEOUT);
     header('Content-Type: application/json; charset=utf-8');
     header('Access-Control-Allow-Origin: *');
+    header('X-Robots-Tag: noindex');
     echo json_encode($apiData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     exit;
 }
@@ -147,6 +149,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
     <meta name="theme-color" content="#4f46e5">
     <link rel="canonical" href="<?= e($canonicalUrl) ?>">
     <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="fa-IR">
+    <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="fa">
     <link rel="alternate" href="<?= e($urlEn) ?>" hreflang="en">
     <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="x-default">
     <link rel="alternate" type="application/rss+xml" title="<?= e(APP_NAME) ?> Blog" href="<?= e(APP_URL . ($lang === 'en' ? '/en/feed' : '/feed')) ?>">

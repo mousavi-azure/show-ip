@@ -48,6 +48,7 @@ $ogImage = APP_URL . ($lang === 'en' ? '/assets/img/og-image-en.png' : '/assets/
     <meta name="theme-color" content="#4f46e5">
     <link rel="canonical" href="<?= e($canonicalUrl) ?>">
     <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="fa-IR">
+    <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="fa">
     <link rel="alternate" href="<?= e($urlEn) ?>" hreflang="en">
     <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="x-default">
 

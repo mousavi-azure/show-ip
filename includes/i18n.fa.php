@@ -153,6 +153,8 @@ return [
     "Article Not Found Body" => "ممکن است آدرس اشتباه باشد یا مقاله جابه‌جا شده باشد.",
     "Try The Tool" => "امتحان کنید",
     "Related Articles" => "مقالات مرتبط",
+    "Page Not Found" => "صفحه پیدا نشد",
+    "Page Not Found Body" => "این صفحه وجود ندارد یا جابه‌جا شده است. از اینجا ادامه دهید:",
 
     // --- Footer ---
     "Footer Credit Prefix" => "طراحی و توسعه با",

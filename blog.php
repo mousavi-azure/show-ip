@@ -79,6 +79,7 @@ if ($slug !== null && $article !== null) {
     <meta name="theme-color" content="#4f46e5">
     <link rel="canonical" href="<?= e($canonicalUrl) ?>">
     <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="fa-IR">
+    <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="fa">
     <link rel="alternate" href="<?= e($urlEn) ?>" hreflang="en">
     <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="x-default">
     <link rel="alternate" type="application/rss+xml" title="<?= e(APP_NAME) ?> Blog" href="<?= e(APP_URL . ($lang === 'en' ? '/en/feed' : '/feed')) ?>">

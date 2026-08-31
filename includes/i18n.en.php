@@ -153,6 +153,8 @@ return [
     "Article Not Found Body" => "The link may be wrong, or the article may have moved.",
     "Try The Tool" => "Try it",
     "Related Articles" => "Related articles",
+    "Page Not Found" => "Page not found",
+    "Page Not Found Body" => "This page doesn't exist or has moved. Carry on from here:",
 
     // --- Footer ---
     "Footer Credit Prefix" => "Crafted with",

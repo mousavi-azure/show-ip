@@ -6,6 +6,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/), and this
 ## [Unreleased]
 
 ### Added
+- Dynamic XML sitemap (`sitemap.php`, served at `/sitemap.xml` via `.htaccess` rewrite): built from the `includes/blog-meta.*.php` registry so new articles and updated dates appear automatically instead of being hand-maintained. Emits reciprocal `hreflang` (`fa-IR`, `fa`, `en`, `x-default`) per URL. The static `sitemap.xml` file was removed.
+- Custom styled 404 page (`404.php`, wired via `ErrorDocument 404`): bilingual, `noindex, follow`, with links back to home/blog/FAQ. The local dev router serves the same page for unknown paths.
+- Canonical-host redirect in `.htaccess`: `www.show-ip.ir` → `show-ip.ir` (301) to avoid duplicate-content signals.
+- `Strict-Transport-Security` (HSTS) response header, now that HTTPS is consistently enforced.
+- `X-Robots-Tag: noindex` header on the `/ip` and `/json` API responses (belt-and-braces alongside the existing `robots.txt` disallow).
+- `hreflang="fa"` alternate (in addition to `fa-IR`) on the home, FAQ, and blog pages, covering Persian speakers outside Iran.
 - Persian display names for API-returned geo values (`includes/geo-fa.php`): country names (all ISO 3166-1 codes) and continent names always localize on the Persian site; region/city localize for all 31 Iranian provinces, ~100 Iranian cities, and ~80 common world/VPN-hub cities — e.g. `Tehran` now renders as `تهران` instead of passing the API's English string straight through. Falls back to the original English value when no translation is known.
 - Blog system (`blog.php`, `includes/blog/`, `includes/blog-meta.*.php`): 11 bilingual articles on IP/networking fundamentals and per-OS "find your IP" guides, cross-linked from the homepage, FAQ, and each other.
 - RSS feed (`/feed`, `/en/feed` — `rss.php`) for the blog, with `<link rel="alternate" type="application/rss+xml">` discovery tags.
@@ -18,7 +24,6 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/), and this
 - `robots.txt` now disallows the plain-text `/ip` and `/json` API endpoints so they aren't crawled/indexed as thin duplicate content.
 
 ### Changed
-- `sitemap.xml` `lastmod` dates refreshed for pages whose rendered content actually changed.
 - Preload both `Vazirmatn-Bold` and `Vazirmatn-Black` (the hero/brand heading weight) to avoid a flash of unstyled heading text on first paint.
 
 ## [1.0.0] — 2026-07-24
