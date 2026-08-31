@@ -6,6 +6,9 @@ require_once __DIR__ . '/includes/helpers.php';
 require_once __DIR__ . '/includes/icons.php';
 require_once __DIR__ . '/includes/ipdata.php';
 
+/** @var array{countries:array<string,string>,continents:array<string,string>,places:array<string,string>} $geo */
+$geo = require __DIR__ . '/includes/geo-fa.php';
+
 $lang = resolveLang();
 $htmlLang = $lang === 'en' ? 'en' : 'fa-IR';
 $htmlDir = $lang === 'en' ? 'ltr' : 'rtl';
@@ -14,6 +17,9 @@ $htmlDir = $lang === 'en' ? 'ltr' : 'rtl';
 $translations = require __DIR__ . "/includes/i18n.$lang.php";
 /** @var array<int,array{q:string,a:string}> $faqs */
 $faqs = require __DIR__ . "/includes/faq.$lang.php";
+/** @var array<string,array{title:string,description:string,excerpt:string,date:string}> $blogArticles */
+$blogArticles = require __DIR__ . "/includes/blog-meta.$lang.php";
+$blogTeaserSlugs = array_slice(array_keys($blogArticles), 0, 3);
 
 $pageTitle = t('Home Meta Title', $translations) . ' | ' . APP_NAME;
 $pageDescription = t('Home Meta Description', $translations);
@@ -77,9 +83,34 @@ $threatList = [
 $flaggedCount = 0;
 foreach ($threatList as $tl) { if ($tl[1]) { $flaggedCount++; } }
 $isClean = !$hasError && $flaggedCount === 0;
+$checksTotal = count($threatList);
+$checksPassed = $checksTotal - $flaggedCount;
+$securityPct = $checksTotal > 0 ? (int)round($checksPassed / $checksTotal * 100) : 100;
+$securitySummaryText = $isClean
+    ? sprintf(t('Security Summary Clean', $translations), $checksTotal)
+    : sprintf(t('Security Summary Flagged', $translations), $flaggedCount, $checksTotal);
 
 $emojiFlag = (string)($ipData['emoji_flag'] ?? '');
 $lang0 = $ipData['languages'][0] ?? null;
+
+// --- Localized geo display values (Persian names for country/continent/region/city) ---
+$countryNameDisplay = geoLocalize((string)($ipData['country_name'] ?? ''), $lang, $geo['countries'], (string)($ipData['country_code'] ?? ''));
+$continentNameDisplay = geoLocalize((string)($ipData['continent_name'] ?? ''), $lang, $geo['continents'], (string)($ipData['continent_code'] ?? ''));
+$regionDisplay = geoLocalize((string)($ipData['region'] ?? ''), $lang, $geo['places']);
+$cityDisplay = geoLocalize((string)($ipData['city'] ?? ''), $lang, $geo['places']);
+
+// --- Local time at the IP's location (NOT the server's or visitor's timezone) ---
+// Parsing with DateTime (not strtotime()+date()) keeps the offset embedded in the
+// API's ISO-8601 string instead of collapsing it through the server's default TZ.
+$tzName = (string)($ipData['time_zone']['name'] ?? '');
+$localTimeDisplay = '';
+if (!empty($ipData['time_zone']['current_time'])) {
+    try {
+        $localTimeDisplay = (new DateTime((string)$ipData['time_zone']['current_time']))->format('H:i:s');
+    } catch (Exception $e) {
+        $localTimeDisplay = '';
+    }
+}
 
 // --- Small translation subset exposed to client-side JS ---
 $jsI18nKeys = [
@@ -118,6 +149,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
     <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="fa-IR">
     <link rel="alternate" href="<?= e($urlEn) ?>" hreflang="en">
     <link rel="alternate" href="<?= e($urlFa) ?>" hreflang="x-default">
+    <link rel="alternate" type="application/rss+xml" title="<?= e(APP_NAME) ?> Blog" href="<?= e(APP_URL . ($lang === 'en' ? '/en/feed' : '/feed')) ?>">
 
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website">
@@ -140,6 +172,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
 
     <!-- Preload local font for faster first paint -->
     <link rel="preload" href="/assets/fonts/Vazirmatn-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/Vazirmatn-Black.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Self-hosted CSS (no external libraries) -->
     <link rel="stylesheet" href="/assets/css/site.css">
@@ -196,6 +229,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
         </a>
         <nav class="header-actions">
             <a class="btn-pill" href="#calculator"><?= icon('calculator') ?> <?= e(t('Tools & Calculator', $translations)) ?></a>
+            <a class="btn-pill" href="<?= $lang === 'en' ? '/en/blog' : '/blog' ?>"><?= icon('list') ?> <?= e(t('Blog', $translations)) ?></a>
             <a class="btn-pill alt" href="#faq"><?= icon('list') ?> <?= e(t('Frequently Asked Questions', $translations)) ?></a>
             <?php if ($lang === 'en'): ?>
                 <a class="btn-pill lang-switch" href="/" hreflang="fa-IR" lang="fa" dir="rtl">فارسی</a>
@@ -257,13 +291,13 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
                 <div class="card-body">
                     <ul class="info-list">
                         <li><span class="info-label"><?= icon('flag') ?> <?= e(t('Country', $translations)) ?></span>
-                            <span class="info-value"><?= $emojiFlag ?> <?= e((string)($ipData['country_name'] ?? t('N/A', $translations))) ?> <?= e((string)($ipData['country_code'] ?? '')) ?></span></li>
+                            <span class="info-value"><?= $emojiFlag ?> <?= e($countryNameDisplay !== '' ? $countryNameDisplay : t('N/A', $translations)) ?> <span class="code-chip"><?= e((string)($ipData['country_code'] ?? '')) ?></span></span></li>
                         <li><span class="info-label"><?= icon('compass') ?> <?= e(t('Continent', $translations)) ?></span>
-                            <span class="info-value"><?= e((string)($ipData['continent_name'] ?? t('N/A', $translations))) ?></span></li>
+                            <span class="info-value"><?= e($continentNameDisplay !== '' ? $continentNameDisplay : t('N/A', $translations)) ?></span></li>
                         <li><span class="info-label"><?= icon('map') ?> <?= e(t('Region', $translations)) ?></span>
-                            <span class="info-value"><?= e((string)($ipData['region'] ?? t('N/A', $translations))) ?></span></li>
+                            <span class="info-value"><?= e($regionDisplay !== '' ? $regionDisplay : t('N/A', $translations)) ?></span></li>
                         <li><span class="info-label"><?= icon('building') ?> <?= e(t('City', $translations)) ?></span>
-                            <span class="info-value"><?= e((string)($ipData['city'] ?? t('N/A', $translations))) ?></span></li>
+                            <span class="info-value"><?= e($cityDisplay !== '' ? $cityDisplay : t('N/A', $translations)) ?></span></li>
                         <li><span class="info-label"><?= icon('mail') ?> <?= e(t('Postal Code', $translations)) ?></span>
                             <span class="info-value"><?= e((string)($ipData['postal'] ?? t('N/A', $translations))) ?></span></li>
                         <li><span class="info-label"><?= icon('phone') ?> <?= e(t('Calling Code', $translations)) ?></span>
@@ -279,7 +313,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
                             <?php if ($mapLeftPct !== null): ?>
                             <button type="button" class="map-marker map-marker-ip" id="ipMarker"
                                     style="left:<?= $mapLeftPct ?>%;top:<?= $mapTopPct ?>%"
-                                    title="<?= e(t('IP-based location', $translations)) ?>: <?= e((string)($ipData['city'] ?? '')) ?>">
+                                    title="<?= e(t('IP-based location', $translations)) ?>: <?= e($cityDisplay) ?>">
                                 <?= icon('pin') ?>
                             </button>
                             <?php endif; ?>
@@ -319,7 +353,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
                         <li><span class="info-label"><?= icon('building') ?> <?= e(t('ISP', $translations)) ?></span>
                             <span class="info-value"><?= e((string)($ipData['asn']['name'] ?? t('N/A', $translations))) ?></span></li>
                         <li><span class="info-label"><?= icon('branch') ?> <?= e(t('ASN', $translations)) ?></span>
-                            <span class="info-value"><?= e((string)($ipData['asn']['asn'] ?? t('N/A', $translations))) ?></span></li>
+                            <span class="info-value"><span class="code-chip"><?= e((string)($ipData['asn']['asn'] ?? t('N/A', $translations))) ?></span></span></li>
                         <li><span class="info-label"><?= icon('share') ?> <?= e(t('Organization', $translations)) ?></span>
                             <span class="info-value"><?= e((string)($ipData['asn']['domain'] ?? t('N/A', $translations))) ?></span></li>
                         <li><span class="info-label"><?= icon('server') ?> <?= e(t('Route', $translations)) ?></span>
@@ -330,9 +364,9 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
                         <?php endif; ?>
                         <li><span class="info-label"><?= icon('clock') ?> <?= e(t('Time Zone', $translations)) ?></span>
                             <span class="info-value"><?= e((string)($ipData['time_zone']['name'] ?? t('N/A', $translations))) ?></span></li>
-                        <?php if (!empty($ipData['time_zone']['current_time'])): ?>
+                        <?php if ($localTimeDisplay !== ''): ?>
                         <li><span class="info-label"><?= icon('sun') ?> <?= e(t('Local Time', $translations)) ?></span>
-                            <span class="info-value" id="localTime" data-time="<?= e((string)$ipData['time_zone']['current_time']) ?>"><?= e(date('H:i:s', strtotime((string)$ipData['time_zone']['current_time']))) ?></span></li>
+                            <span class="info-value" id="localTime" data-tz="<?= e($tzName) ?>"><?= e($localTimeDisplay) ?></span></li>
                         <?php endif; ?>
                         <?php if ($lang0): ?>
                         <li><span class="info-label"><?= icon('languages') ?> <?= e(t('Language', $translations)) ?></span>
@@ -349,14 +383,22 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
                     </div>
 
                     <div class="sec-summary <?= $isClean ? 'clean' : 'flagged' ?>">
-                        <?= $isClean ? icon('check') : icon('alert') ?>
-                        <span><?= e(t('Security Status', $translations)) ?>:
-                        <?= $isClean ? e(t('Clean', $translations)) : e(t('Flagged', $translations)) . ' (' . $flaggedCount . ')' ?></span>
+                        <div class="sec-ring <?= $isClean ? '' : 'flagged' ?>" style="--pct:<?= $securityPct ?>">
+                            <span class="sec-ring-value"><?= $checksPassed ?>/<?= $checksTotal ?></span>
+                        </div>
+                        <div>
+                            <div class="sec-summary-title">
+                                <?= $isClean ? icon('check') : icon('alert') ?>
+                                <?= e(t('Security Status', $translations)) ?>:
+                                <?= $isClean ? e(t('Clean', $translations)) : e(t('Flagged', $translations)) . ' (' . $flaggedCount . ')' ?>
+                            </div>
+                            <p class="sec-summary-text"><?= e($securitySummaryText) ?></p>
+                        </div>
                     </div>
 
                     <div class="threat-grid">
                         <?php foreach ($threatList as [$label, $isDanger, $ic]): ?>
-                        <div class="threat-item">
+                        <div class="threat-item" title="<?= e(t($label . ' Desc', $translations)) ?>">
                             <div class="threat-dot <?= $isDanger ? 'danger' : 'safe' ?>"></div>
                             <div class="threat-info">
                                 <div class="threat-text"><?= e(t($label, $translations)) ?></div>
@@ -444,6 +486,27 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
         </div>
         <div class="section-head">
             <a class="btn-pill alt" href="<?= $lang === 'en' ? '/en/faq' : '/faq' ?>"><?= icon('list') ?> <?= e(t('View All FAQ', $translations)) ?></a>
+        </div>
+    </section>
+
+    <!-- ─────────────── BLOG TEASER ─────────────── -->
+    <section aria-label="<?= e(t('Blog Section Aria', $translations)) ?>">
+        <div class="section-head">
+            <h2><?= icon('list') ?> <?= e(t('All Articles', $translations)) ?></h2>
+            <p><?= e(t('Blog Intro', $translations)) ?></p>
+        </div>
+        <div class="blog-grid">
+            <?php $blogBase = $lang === 'en' ? '/en/blog' : '/blog'; ?>
+            <?php foreach ($blogTeaserSlugs as $s): $a = $blogArticles[$s]; ?>
+            <a class="blog-card" href="<?= e($blogBase . '/' . $s) ?>">
+                <h3 class="blog-card-title"><?= e($a['title']) ?></h3>
+                <p class="blog-card-excerpt"><?= e($a['excerpt']) ?></p>
+                <span class="blog-card-link"><?= e(t('Read Article', $translations)) ?> <?= icon('external') ?></span>
+            </a>
+            <?php endforeach; ?>
+        </div>
+        <div class="section-head">
+            <a class="btn-pill alt" href="<?= e($blogBase) ?>"><?= icon('list') ?> <?= e(t('All Articles', $translations)) ?></a>
         </div>
     </section>
 

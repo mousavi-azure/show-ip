@@ -149,17 +149,26 @@
     });
   }
 
-  /* ---------- Live local clock ---------- */
+  /* ---------- Live clock at the IP's location ----------
+     Uses Intl.DateTimeFormat with the destination's IANA zone name so the
+     clock always shows time there, regardless of the visitor's own system
+     timezone (plain `new Date(...).getHours()` would report the *viewer's*
+     local time, not the destination's — that was the bug). Formatting the
+     real current instant fresh each tick also avoids any drift from
+     setInterval throttling in backgrounded tabs. */
   function initClock() {
     const el = $('localTime');
-    if (!el || !el.dataset.time) return;
-    let t = new Date(el.dataset.time);
-    if (isNaN(t.getTime())) return;
-    const pad = (n) => String(n).padStart(2, '0');
-    setInterval(() => {
-      t = new Date(t.getTime() + 1000);
-      el.textContent = `${pad(t.getHours())}:${pad(t.getMinutes())}:${pad(t.getSeconds())}`;
-    }, 1000);
+    const tz = el?.dataset.tz;
+    if (!el || !tz) return;
+    let fmt;
+    try {
+      fmt = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    } catch {
+      return; // unrecognized zone name — keep the server-rendered value as-is
+    }
+    const tick = () => { el.textContent = fmt.format(new Date()); };
+    tick();
+    setInterval(tick, 1000);
   }
 
   /* ---------- Copy IP ---------- */

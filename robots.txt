@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /ip
+Disallow: /json
+Disallow: /*?format=
 
 Sitemap: https://show-ip.ir/sitemap.xml

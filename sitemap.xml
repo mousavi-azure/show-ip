@@ -6,7 +6,7 @@
     <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/"/>
-    <lastmod>2026-07-24</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,7 +15,7 @@
     <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/"/>
-    <lastmod>2026-07-24</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -24,7 +24,7 @@
     <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/faq"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/faq"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/faq"/>
-    <lastmod>2026-07-24</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -33,8 +33,224 @@
     <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/faq"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/faq"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/faq"/>
-    <lastmod>2026-07-24</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/what-is-an-ip-address</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/what-is-an-ip-address"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/what-is-an-ip-address"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/what-is-an-ip-address"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/what-is-an-ip-address</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/what-is-an-ip-address"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/what-is-an-ip-address"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/what-is-an-ip-address"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/ipv4-vs-ipv6</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/ipv4-vs-ipv6"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/ipv4-vs-ipv6"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/ipv4-vs-ipv6"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/ipv4-vs-ipv6</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/ipv4-vs-ipv6"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/ipv4-vs-ipv6"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/ipv4-vs-ipv6"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/how-vpn-changes-your-ip</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/how-vpn-changes-your-ip"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/how-vpn-changes-your-ip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/how-vpn-changes-your-ip"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/how-vpn-changes-your-ip</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/how-vpn-changes-your-ip"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/how-vpn-changes-your-ip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/how-vpn-changes-your-ip"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/static-vs-dynamic-ip</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/static-vs-dynamic-ip"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/static-vs-dynamic-ip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/static-vs-dynamic-ip"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/static-vs-dynamic-ip</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/static-vs-dynamic-ip"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/static-vs-dynamic-ip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/static-vs-dynamic-ip"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/private-vs-public-ip</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/private-vs-public-ip"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/private-vs-public-ip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/private-vs-public-ip"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/private-vs-public-ip</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/private-vs-public-ip"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/private-vs-public-ip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/private-vs-public-ip"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/how-to-hide-your-ip</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/how-to-hide-your-ip"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/how-to-hide-your-ip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/how-to-hide-your-ip"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/how-to-hide-your-ip</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/how-to-hide-your-ip"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/how-to-hide-your-ip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/how-to-hide-your-ip"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/find-ip-address-windows</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-windows"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-windows"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-windows"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/find-ip-address-windows</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-windows"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-windows"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-windows"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/find-ip-address-linux</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-linux"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-linux"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-linux"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/find-ip-address-linux</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-linux"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-linux"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-linux"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/find-ip-address-mac</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-mac"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-mac"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-mac"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/find-ip-address-mac</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-mac"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-mac"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-mac"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/find-ip-address-android</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-android"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-android"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-android"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/find-ip-address-android</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-android"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-android"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-android"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/blog/find-ip-address-iphone</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-iphone"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-iphone"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-iphone"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://show-ip.ir/en/blog/find-ip-address-iphone</loc>
+    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://show-ip.ir/blog/find-ip-address-iphone"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://show-ip.ir/en/blog/find-ip-address-iphone"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://show-ip.ir/blog/find-ip-address-iphone"/>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
