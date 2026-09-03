@@ -20,7 +20,8 @@ $articles = require __DIR__ . '/includes/blog-meta.en.php';
 $today = date('Y-m-d');
 
 // Newest article date drives the blog index lastmod.
-$dates = array_filter(array_column($articles, 'date'));
+$lastmodOf = static fn(array $a): string => $a['modified'] ?? $a['date'];
+$dates = array_filter(array_map($lastmodOf, $articles));
 $blogLastmod = $dates ? max($dates) : $today;
 
 /**
@@ -33,7 +34,7 @@ $entries = [
 ];
 
 foreach ($articles as $slug => $a) {
-    $entries[] = ['/blog/' . $slug, '/en/blog/' . $slug, $a['date'], 'monthly', '0.6'];
+    $entries[] = ['/blog/' . $slug, '/en/blog/' . $slug, $lastmodOf($a), 'monthly', '0.6'];
 }
 
 header('Content-Type: application/xml; charset=utf-8');

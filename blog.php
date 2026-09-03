@@ -34,6 +34,10 @@ if ($article !== null) {
     $pageDescription = $article['description'];
     $urlFa = APP_URL . '/blog/' . $slug;
     $urlEn = APP_URL . '/en/blog/' . $slug;
+    $articlePublished = $article['date'];
+    $articleModified = $article['modified'] ?? $article['date'];
+    $articleKeywords = $article['keywords'] ?? '';
+    $articleSection = $article['section'] ?? t('Blog', $translations);
 } else {
     $pageTitle = t('Blog Meta Title', $translations) . ' | ' . APP_NAME;
     $pageDescription = t('Blog Meta Description', $translations);
@@ -75,6 +79,9 @@ if ($slug !== null && $article !== null) {
     <title><?= e($pageTitle) ?></title>
     <meta name="description" content="<?= e($pageDescription) ?>">
     <meta name="author" content="<?= e(APP_AUTHOR) ?>">
+    <?php if ($article !== null && $articleKeywords !== ''): ?>
+    <meta name="keywords" content="<?= e($articleKeywords) ?>">
+    <?php endif; ?>
     <meta name="robots" content="<?= $notFound ? 'noindex, follow' : 'index, follow, max-image-preview:large' ?>">
     <meta name="theme-color" content="#4f46e5">
     <link rel="canonical" href="<?= e($canonicalUrl) ?>">
@@ -86,6 +93,7 @@ if ($slug !== null && $article !== null) {
 
     <meta property="og:type" content="<?= $article !== null ? 'article' : 'website' ?>">
     <meta property="og:locale" content="<?= $lang === 'en' ? 'en_US' : 'fa_IR' ?>">
+    <meta property="og:locale:alternate" content="<?= $lang === 'en' ? 'fa_IR' : 'en_US' ?>">
     <meta property="og:site_name" content="<?= e(APP_NAME) ?>">
     <meta property="og:title" content="<?= e($pageTitle) ?>">
     <meta property="og:description" content="<?= e($pageDescription) ?>">
@@ -93,12 +101,24 @@ if ($slug !== null && $article !== null) {
     <meta property="og:image" content="<?= e($ogImage) ?>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <?php if ($article !== null): ?>
+    <meta property="article:published_time" content="<?= e($articlePublished) ?>">
+    <meta property="article:modified_time" content="<?= e($articleModified) ?>">
+    <meta property="article:author" content="<?= e(APP_AUTHOR) ?>">
+    <meta property="article:section" content="<?= e($articleSection) ?>">
+    <?php if ($articleKeywords !== ''): foreach (array_map('trim', explode(',', $articleKeywords)) as $tag): ?>
+    <meta property="article:tag" content="<?= e($tag) ?>">
+    <?php endforeach; endif; ?>
+    <?php endif; ?>
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= e($pageTitle) ?>">
+    <meta name="twitter:description" content="<?= e($pageDescription) ?>">
+    <meta name="twitter:image" content="<?= e($ogImage) ?>">
 
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="preload" href="/assets/fonts/Vazirmatn-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/Vazirmatn-Bold.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/Vazirmatn-Black.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/site.css">
 
     <?php if (!$notFound): ?>
@@ -115,23 +135,52 @@ if ($slug !== null && $article !== null) {
         ['@type' => 'BreadcrumbList', 'itemListElement' => $breadcrumbItems],
     ];
     if ($article !== null) {
-        $graph[] = [
+        $wordCount = str_word_count(strip_tags((string)$bodyHtml)) ?: null;
+        $articleNode = [
             '@type' => 'Article',
             'headline' => $article['title'],
             'description' => $article['description'],
-            'datePublished' => $article['date'],
-            'dateModified' => $article['date'],
+            'datePublished' => $articlePublished,
+            'dateModified' => $articleModified,
             'inLanguage' => $htmlLang,
             'url' => $canonicalUrl,
+            'articleSection' => $articleSection,
             'author' => ['@type' => 'Person', 'name' => APP_AUTHOR, 'url' => APP_AUTHOR_URL],
             'publisher' => [
                 '@type' => 'Organization',
                 'name' => APP_NAME,
+                'url' => APP_URL,
                 'logo' => ['@type' => 'ImageObject', 'url' => APP_URL . '/assets/img/logo.svg'],
             ],
-            'image' => $ogImage,
+            'image' => ['@type' => 'ImageObject', 'url' => $ogImage, 'width' => 1200, 'height' => 630],
             'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => $canonicalUrl],
+            'isAccessibleForFree' => true,
         ];
+        if ($articleKeywords !== '') {
+            $articleNode['keywords'] = $articleKeywords;
+        }
+        if ($wordCount) {
+            $articleNode['wordCount'] = $wordCount;
+        }
+        $graph[] = $articleNode;
+
+        // HowTo rich result for step-by-step guides that opt in via a `howto` key.
+        if (!empty($article['howto']) && is_array($article['howto'])) {
+            $graph[] = [
+                '@type' => 'HowTo',
+                'name' => $article['howto']['name'] ?? $article['title'],
+                'description' => $article['description'],
+                'inLanguage' => $htmlLang,
+                'totalTime' => $article['howto']['totalTime'] ?? 'PT3M',
+                'step' => array_map(static fn($s, $i) => [
+                    '@type' => 'HowToStep',
+                    'position' => $i + 1,
+                    'name' => $s['name'],
+                    'text' => $s['text'],
+                    'url' => $canonicalUrl . '#step-' . ($i + 1),
+                ], $article['howto']['steps'], array_keys($article['howto']['steps'])),
+            ];
+        }
     } else {
         $graph[] = [
             '@type' => 'CollectionPage',
@@ -196,7 +245,14 @@ if ($slug !== null && $article !== null) {
 
         <div class="hero article-hero">
             <h1 class="hero-title"><?= e($article['title']) ?></h1>
-            <p class="article-meta"><?= icon('clock') ?> <?= e(t('Published', $translations)) ?>: <time datetime="<?= e($article['date']) ?>"><?= e($article['date']) ?></time></p>
+            <p class="article-meta">
+                <?= icon('clock') ?> <?= e(t('Published', $translations)) ?>:
+                <time datetime="<?= e($articlePublished) ?>"><?= e(displayDate($articlePublished, $lang)) ?></time>
+                <?php if ($articleModified !== $articlePublished): ?>
+                    · <?= e(t('Updated', $translations)) ?>:
+                    <time datetime="<?= e($articleModified) ?>"><?= e(displayDate($articleModified, $lang)) ?></time>
+                <?php endif; ?>
+            </p>
         </div>
 
         <article class="card article-card">
@@ -248,6 +304,7 @@ if ($slug !== null && $article !== null) {
             <a class="blog-card" href="<?= e($blogUrl . '/' . $s) ?>">
                 <h2 class="blog-card-title"><?= e($a['title']) ?></h2>
                 <p class="blog-card-excerpt"><?= e($a['excerpt']) ?></p>
+                <time class="blog-card-date" datetime="<?= e($a['modified'] ?? $a['date']) ?>"><?= e(displayDate($a['modified'] ?? $a['date'], $lang)) ?></time>
                 <span class="blog-card-link"><?= e(t('Read Article', $translations)) ?> <?= icon('external') ?></span>
             </a>
             <?php endforeach; ?>

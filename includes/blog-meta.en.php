@@ -6,6 +6,50 @@
  * @return array<string,array{title:string,description:string,excerpt:string,date:string}>
  */
 return [
+    'whats-my-ip-iran' => [
+        'title' => 'What Is My IP? Reading Your IP Address Lookup',
+        'description' => 'See your current IP address and understand every part of the result: country, city, ISP, ASN, and why the location is sometimes wrong (CGNAT, mobile carriers, VPNs).',
+        'excerpt' => 'Open your "what is my IP" result and learn what each line — from ISP to CGNAT — actually means.',
+        'date' => '2026-09-03',
+        'keywords' => 'what is my ip, my ip address, check my ip, ip lookup, ip address location',
+        'section' => 'IP Basics',
+    ],
+    'get-static-ip-iran' => [
+        'title' => 'How to Get a Static (Public) IP From Your ISP',
+        'description' => 'A practical guide to getting a static, publicly reachable IP address from your ISP for CCTV, remote desktop and self-hosted servers — plus how static, public and NAT differ.',
+        'excerpt' => 'Need to reach a camera or PC from outside your network? Here is how a static IP actually works.',
+        'date' => '2026-09-03',
+        'modified' => '2026-09-03',
+        'keywords' => 'static ip, public ip, get a static ip, static ip for cctv, port forwarding, CGNAT',
+        'section' => 'IP Basics',
+        'howto' => [
+            'name' => 'Get a static public IP address from your ISP',
+            'totalTime' => 'PT10M',
+            'steps' => [
+                ['name' => 'Check your current IP type', 'text' => 'Open Show-IP.ir and compare the public IP shown with your router WAN IP. If they differ, you are behind carrier NAT (CGNAT).'],
+                ['name' => 'Contact your ISP', 'text' => 'Ask your provider for a "static IP" or "valid/public IP" add-on for your line.'],
+                ['name' => 'Pick the right plan', 'text' => 'Static IPs are usually sold monthly on DSL/fibre lines; on mobile data they are often only available on business plans.'],
+                ['name' => 'Configure the router and port forwarding', 'text' => 'Once the static IP is active, forward the ports you need (e.g. 80/443 or your DVR port) to the target device in the router panel.'],
+                ['name' => 'Test from outside the network', 'text' => 'Using mobile data (not the same Wi-Fi), open the static IP to confirm it is reachable from the internet.'],
+            ],
+        ],
+    ],
+    'reduce-ping-online-games' => [
+        'title' => 'How to Reduce Ping in Online Games',
+        'description' => 'What ping is, why it spikes, and how to lower it with a wired connection, the right server region, a clean network path and — when it helps — a low-latency VPN.',
+        'excerpt' => 'High ping is not only your internet speed — the route your packets take to the game server matters too.',
+        'date' => '2026-09-03',
+        'keywords' => 'reduce ping, high ping, lower ping, fix lag, ping in games, best dns for gaming',
+        'section' => 'Networking & Gaming',
+    ],
+    'check-ip-blacklist' => [
+        'title' => 'How to Check if Your IP Is Blacklisted (and Fix It)',
+        'description' => 'If sites will not load, your email lands in spam, or you keep seeing CAPTCHAs, your IP address may be blacklisted. How to check IP reputation and get off blocklists.',
+        'excerpt' => 'Why some sites block your IP address, and how to tell whether the problem is really your IP.',
+        'date' => '2026-09-03',
+        'keywords' => 'ip blacklist, check ip blacklist, ip reputation, blocked ip, ip on blocklist, dnsbl',
+        'section' => 'Security & Privacy',
+    ],
     'what-is-an-ip-address' => [
         'title' => 'What Is an IP Address? A Complete, Simple Guide',
         'description' => 'What an IP address is, how it works, and why every device on the internet needs one — explained simply with examples.',

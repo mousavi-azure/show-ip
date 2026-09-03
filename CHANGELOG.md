@@ -6,6 +6,13 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/), and this
 ## [Unreleased]
 
 ### Added
+- **API-key pool with automatic failover** (`includes/ipdata.php`, `includes/config.php`): `IPDATA_API_KEYS` accepts a comma/space-separated list of ipdata.co keys. `fetchIpDataMulti()` rotates to the next key instantly when one is rejected for quota/auth/rate-limit reasons (403/401/429 or a "quota exceeded" message). The legacy single `API_KEY` / `IPDATA_API_KEY` is still honored and merged into the pool.
+- **On-disk IP-lookup cache** (`fetchIpDataCached()`, `.cache/ipdata/`, gitignored): each IP is cached for `IPDATA_CACHE_TTL` seconds (default 1800). Repeat visits are served in ~3 ms and consume zero API quota. `.htaccess` blocks direct access to `.cache`, `.env`, `.git`.
+- **4 new bilingual blog articles** targeting high-intent Persian search queries: "آی‌پی من چیست" + reading the lookup result, getting a static IP from Iranian ISPs (with `HowTo` rich-result schema), reducing ping in online games, and checking/fixing IP blacklisting.
+- **Blog SEO**: `article:published_time` / `article:modified_time` / `article:author` / `article:section` / `article:tag` OG tags, `og:locale:alternate`, `twitter:*` tags, optional per-article `keywords` meta, `Article` JSON-LD enriched with `dateModified`, `articleSection`, `keywords`, `wordCount`, `ImageObject`; opt-in `HowTo` JSON-LD for step-by-step guides.
+- Jalali (Shamsi) publish/update dates with Persian digits on the Persian blog (`jalaliDate()`, `displayDate()` in `includes/helpers.php`); dates now also shown on blog listing cards.
+- `blog-meta.*.php` entries support optional `modified`, `keywords`, `section`, `howto` keys; `sitemap.php` uses `modified ?? date` for `lastmod`.
+- `content-visibility:auto` on below-the-fold sections and a `prefers-reduced-motion` block in `site.css`.
 - Dynamic XML sitemap (`sitemap.php`, served at `/sitemap.xml` via `.htaccess` rewrite): built from the `includes/blog-meta.*.php` registry so new articles and updated dates appear automatically instead of being hand-maintained. Emits reciprocal `hreflang` (`fa-IR`, `fa`, `en`, `x-default`) per URL. The static `sitemap.xml` file was removed.
 - Custom styled 404 page (`404.php`, wired via `ErrorDocument 404`): bilingual, `noindex, follow`, with links back to home/blog/FAQ. The local dev router serves the same page for unknown paths.
 - Canonical-host redirect in `.htaccess`: `www.show-ip.ir` → `show-ip.ir` (301) to avoid duplicate-content signals.
@@ -13,7 +20,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/), and this
 - `X-Robots-Tag: noindex` header on the `/ip` and `/json` API responses (belt-and-braces alongside the existing `robots.txt` disallow).
 - `hreflang="fa"` alternate (in addition to `fa-IR`) on the home, FAQ, and blog pages, covering Persian speakers outside Iran.
 - Persian display names for API-returned geo values (`includes/geo-fa.php`): country names (all ISO 3166-1 codes) and continent names always localize on the Persian site; region/city localize for all 31 Iranian provinces, ~100 Iranian cities, and ~80 common world/VPN-hub cities — e.g. `Tehran` now renders as `تهران` instead of passing the API's English string straight through. Falls back to the original English value when no translation is known.
-- Blog system (`blog.php`, `includes/blog/`, `includes/blog-meta.*.php`): 11 bilingual articles on IP/networking fundamentals and per-OS "find your IP" guides, cross-linked from the homepage, FAQ, and each other.
+- Blog system (`blog.php`, `includes/blog/`, `includes/blog-meta.*.php`): 15 bilingual articles on IP/networking fundamentals, per-OS "find your IP" guides, and Iran-specific practical guides, cross-linked from the homepage, FAQ, and each other.
 - RSS feed (`/feed`, `/en/feed` — `rss.php`) for the blog, with `<link rel="alternate" type="application/rss+xml">` discovery tags.
 - Security-check summary: a CSS-only donut ring showing checks-passed alongside a plain-language sentence, and hover tooltips explaining what each threat flag (Tor, proxy, datacenter/VPN, etc.) actually means.
 - Subtle ambient background gradient and a pulsing ring on the IP badge icon.
@@ -24,7 +31,8 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/), and this
 - `robots.txt` now disallows the plain-text `/ip` and `/json` API endpoints so they aren't crawled/indexed as thin duplicate content.
 
 ### Changed
-- Preload both `Vazirmatn-Bold` and `Vazirmatn-Black` (the hero/brand heading weight) to avoid a flash of unstyled heading text on first paint.
+- Preload `Vazirmatn-Regular` (body text) alongside `Vazirmatn-Bold` instead of `Vazirmatn-Black`, so the most-used weight is available on first paint.
+- The 780 KB self-hosted world map now loads with `decoding="async" fetchpriority="low"` so it never competes with above-the-fold content.
 
 ## [1.0.0] — 2026-07-24
 

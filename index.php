@@ -43,7 +43,8 @@ if ($format === 'text' || $format === 'ip' || $format === 'plain') {
     exit;
 }
 if ($format === 'json') {
-    $apiData = fetchIpData($userIP, IPDATA_API_KEY, IPDATA_VERIFY_SSL, IPDATA_TIMEOUT);
+    $apiData = fetchIpDataCached($userIP, IPDATA_API_KEYS, IPDATA_VERIFY_SSL, IPDATA_TIMEOUT, IPDATA_CACHE_TTL);
+    unset($apiData['_cache']);
     header('Content-Type: application/json; charset=utf-8');
     header('Access-Control-Allow-Origin: *');
     header('X-Robots-Tag: noindex');
@@ -51,7 +52,8 @@ if ($format === 'json') {
     exit;
 }
 
-$ipData = fetchIpData($userIP, IPDATA_API_KEY, IPDATA_VERIFY_SSL, IPDATA_TIMEOUT);
+$ipData = fetchIpDataCached($userIP, IPDATA_API_KEYS, IPDATA_VERIFY_SSL, IPDATA_TIMEOUT, IPDATA_CACHE_TTL);
+unset($ipData['_cache']);
 $hasError = isset($ipData['error']) || isset($ipData['message']);
 
 $urlFa = APP_URL . '/';
@@ -157,6 +159,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="<?= $lang === 'en' ? 'en_US' : 'fa_IR' ?>">
+    <meta property="og:locale:alternate" content="<?= $lang === 'en' ? 'fa_IR' : 'en_US' ?>">
     <meta property="og:site_name" content="<?= e(APP_NAME) ?>">
     <meta property="og:title" content="<?= e($pageTitle) ?>">
     <meta property="og:description" content="<?= e($pageDescription) ?>">
@@ -174,8 +177,8 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
     <link rel="manifest" href="/site.webmanifest">
 
     <!-- Preload local font for faster first paint -->
+    <link rel="preload" href="/assets/fonts/Vazirmatn-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/Vazirmatn-Bold.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/Vazirmatn-Black.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Self-hosted CSS (no external libraries) -->
     <link rel="stylesheet" href="/assets/css/site.css">
@@ -261,7 +264,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
             <span><strong><?= e(t('Error Label', $translations)) ?>:</strong>
             <?= e((string)($ipData['message'] ?? $ipData['error'] ?? t('Service temporarily unavailable', $translations))) ?></span>
         </div>
-        <?php if (IPDATA_API_KEY === ''): ?>
+        <?php if (IPDATA_API_KEYS === []): ?>
             <div class="alert alert-warning" role="alert">
                 <?= icon('info') ?>
                 <span><strong><?= e(t('Note', $translations)) ?>:</strong> <?= sprintf(e(t('Env Key Missing Note', $translations)), '<code>.env</code>') ?></span>
@@ -311,7 +314,7 @@ foreach ($jsI18nKeys as $k) { $jsI18n[$k] = t($k, $translations); }
 
                     <div class="map-shell">
                         <div class="map-widget" id="mapWidget" data-ip-lat="<?= e((string)($lat ?? '')) ?>" data-ip-lng="<?= e((string)($lng ?? '')) ?>">
-                            <img class="map-img" src="/assets/img/world-map.svg" alt="<?= e(t('Map Alt', $translations)) ?>" loading="lazy" width="940" height="477">
+                            <img class="map-img" src="/assets/img/world-map.svg" alt="<?= e(t('Map Alt', $translations)) ?>" loading="lazy" decoding="async" fetchpriority="low" width="940" height="477">
                             <div class="map-graticule" aria-hidden="true"></div>
                             <?php if ($mapLeftPct !== null): ?>
                             <button type="button" class="map-marker map-marker-ip" id="ipMarker"

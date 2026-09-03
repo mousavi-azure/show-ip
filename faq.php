@@ -54,6 +54,7 @@ $ogImage = APP_URL . ($lang === 'en' ? '/assets/img/og-image-en.png' : '/assets/
 
     <meta property="og:type" content="article">
     <meta property="og:locale" content="<?= $lang === 'en' ? 'en_US' : 'fa_IR' ?>">
+    <meta property="og:locale:alternate" content="<?= $lang === 'en' ? 'fa_IR' : 'en_US' ?>">
     <meta property="og:site_name" content="<?= e(APP_NAME) ?>">
     <meta property="og:title" content="<?= e($pageTitle) ?>">
     <meta property="og:description" content="<?= e($pageDescription) ?>">
@@ -65,8 +66,8 @@ $ogImage = APP_URL . ($lang === 'en' ? '/assets/img/og-image-en.png' : '/assets/
 
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="preload" href="/assets/fonts/Vazirmatn-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/Vazirmatn-Bold.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/Vazirmatn-Black.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/site.css">
 
     <script type="application/ld+json">

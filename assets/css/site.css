@@ -484,6 +484,7 @@ a { color: inherit; }
 .blog-card-excerpt { font-size: .87rem; color: var(--text-secondary); line-height: 1.8; flex: 1; }
 .blog-card-link { font-size: .82rem; font-weight: 700; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
 .blog-card-link .ic { width: 14px; height: 14px; }
+.blog-card-date { font-size: .74rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
 
 .section-head-left { margin: 48px 0 20px; }
 .related-heading {
@@ -551,4 +552,26 @@ a { color: inherit; }
   .hero { padding: 34px 14px 20px; }
   .card-body { padding: 16px; }
   .brand-subtitle { display: none; }
+}
+
+/* ===================== RENDERING PERFORMANCE =====================
+   Skip layout/paint for below-the-fold blocks until they are near the
+   viewport. contain-intrinsic-size reserves an approximate height so the
+   scrollbar stays stable. Big win on mobile / low-end devices. */
+.calc-card,
+.cli-card,
+#faq,
+.blog-grid,
+.footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+.footer { contain-intrinsic-size: auto 160px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
 }

@@ -148,6 +148,7 @@ return [
     "Blog Intro" => "Clear, accurate guides on IP addresses, networking, VPNs and privacy — without unnecessary technical jargon.",
     "Read Article" => "Read article",
     "Published" => "Published",
+    "Updated" => "Updated",
     "Back to Articles" => "Back to articles",
     "Article Not Found" => "Article not found",
     "Article Not Found Body" => "The link may be wrong, or the article may have moved.",

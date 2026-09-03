@@ -16,6 +16,9 @@ Thumbs.db
 # Logs
 *.log
 
+# Runtime IP-lookup cache
+/.cache/
+
 # Local dev tooling
 /.claude/launch.json
 /.dev/

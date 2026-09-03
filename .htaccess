@@ -36,6 +36,12 @@
 # Custom error pages
 ErrorDocument 404 /404.php
 
+# ── Block direct access to dotfiles, config and the runtime cache ──
+RedirectMatch 404 (?i)^/\.(env|cache|git)(/|$)
+<FilesMatch "(?i)^\.env">
+  Require all denied
+</FilesMatch>
+
 # Security & performance headers
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
